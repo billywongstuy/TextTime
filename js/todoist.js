@@ -22,7 +22,9 @@ function main() {
 
 }
 
-function getToken(rCode) {
+function getToken() {
+	
+	console.log(window.location);
 	
 	query = {
 		client_id: "08036ba1ba6f47e4ac6a04882ae53787",

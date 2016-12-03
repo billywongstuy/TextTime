@@ -4,11 +4,61 @@
 <head>
     <title>Todoist Confirmed</title>
     <style>
-      * {margin: autp; text-align: center;}
+      * {margin: auto; text-align: center;}
     </style>
+	<script type=text/javascript src="{{url_for('static', filename='jquery-3.1.1.min.js') }}"></script>
+	<script>
+	function loadJSON(path, q, success, error)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function()
+    {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                if (success)
+                    success(JSON.parse(xhr.responseText));
+            } else {
+                if (error)
+                    error(xhr);
+            }
+        }
+    };
+    xhr.open("GET", path, true);
+    xhr.send(q);
+}
+
+	
+	
+	function getToken() {
+	
+	var here = window.location.href;
+	
+	var rCode = (here.substring(here.indexOf("code")+5));
+	
+	query = {
+		client_id: "08036ba1ba6f47e4ac6a04882ae53787",
+		client_secret: "3be5d79578a94267aaaa3c11ade9d6b7",
+		code: rCode,
+	}
+	
+	var root = "https://todoist.com/oauth/access_token"
+	var url = root + "?client_id=" + query.client_id + "&client_secret=" + query.client_secret + "&code=" + query.code
+
+	//window.location.href = url;
+	
+	/*$.post(url,query,
+	function(data,status) {
+		alert("Token: " + data);
+	})*/
+	loadJSON(root, query,
+		 function(data) { console.log(data); },
+         function(xhr) { console.error(xhr); }
+	);
+}
+	</script>
 </head>
 
-<body>
+<body onload="getToken()">
   <h1>You have successfully authenticated with Todoist.</h1>
   <p>
     Please exit the browser and return to TextTime.
